@@ -10,13 +10,13 @@ export class ClubEntity {
   @Column()
   nombre: string;
 
-  @Column()
+  @Column({nullable: true })
   fecha_fundacion: Date;
 
-  @Column()
+  @Column({nullable: true })
   imagen: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   descripcion: string;
 
   @ManyToMany(() => SocioEntity, (socio) => socio.clubs)
