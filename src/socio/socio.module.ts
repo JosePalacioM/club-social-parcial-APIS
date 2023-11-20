@@ -5,6 +5,7 @@
 // import { SocioService } from './socio.service';
 // import { SocioController } from './socio.controller';
 import { SocioService } from './socio.service';
+import { SocioController } from './socio.controller';
 
 // @Module({
 //   imports: [TypeOrmModule.forFeature([SocioEntity])],

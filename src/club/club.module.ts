@@ -5,6 +5,7 @@
 // // import { ClubController } from './club.controller';
 // // import { ClubService } from './club.service';
 import { ClubService } from './club.service';
+import { ClubController } from './club.controller';
 
 // @Module({
 //   imports: [TypeOrmModule.forFeature([ClubEntity])],
