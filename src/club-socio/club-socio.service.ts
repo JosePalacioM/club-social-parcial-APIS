@@ -16,8 +16,8 @@ export class ClubSocioService {
     private readonly socioRepository: Repository<SocioEntity>,
   ) {}
 
-  // Añadir Socio a un País
-  async addSocioClub(
+  // Añadir Socio a un Club
+  async addMemberToClub(
     clubId: string,
     socioId: string,
   ): Promise<ClubEntity> {
@@ -48,7 +48,7 @@ export class ClubSocioService {
   }
 
   // Encontrar Socios por ID del País
-  async findSociosByClubId(
+  async findMembersFromClub(
     clubId: string,
   ): Promise<SocioEntity[]> {
     const club: ClubEntity = await this.clubRepository.findOne({
@@ -65,7 +65,7 @@ export class ClubSocioService {
   }
 
   // Encontrar Socio por ID del País y su ID de Socio
-  async findSocioByclubIdsocioId(
+  async findMemberFromClub(
     clubId: string,
     socioId: string,
   ): Promise<SocioEntity> {
@@ -102,7 +102,7 @@ export class ClubSocioService {
   }
 
   // Asociar Socios a un País
-  async associateSociosClub(
+  async updateMembersFromClub(
     clubId: string,
     socios: SocioEntity[],
   ): Promise<ClubEntity> {
@@ -134,7 +134,7 @@ export class ClubSocioService {
   }
 
   // Eliminar Socio de un País
-  async deleteSocioClub(
+  async deleteMemberFromClub(
     clubId: string,
     socioId: string,
   ) {

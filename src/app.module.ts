@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SocioEntity } from './socio/socio.entity';
 import { ClubEntity } from './club/club.entity';
 import { ClubSocioModule } from './club-socio/club-socio.module';
+import { SocioClubModule } from './socio-club/socio-club.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { ClubSocioModule } from './club-socio/club-socio.module';
       keepConnectionAlive: true,
     }),
     ClubSocioModule,
+    SocioClubModule,
   ],
   controllers: [AppController],
   providers: [AppService,],

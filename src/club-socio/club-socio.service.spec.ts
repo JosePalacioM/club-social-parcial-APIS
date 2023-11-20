@@ -77,13 +77,13 @@ describe('ClubSocioService', () => {
     expect(service).toBeDefined();
   });
 
-  it('addSocioClub should add a socio to a club', async () => {
+  it('addMemberToClub should add a socio to a club', async () => {
     const newSocio: SocioEntity =
       await socioRepository.save(getNewSocio());
 
     const newClub: ClubEntity = await clubRepository.save(getNewClub(),);
 
-    const result: ClubEntity = await service.addSocioClub(newClub.id, newSocio.id,);
+    const result: ClubEntity = await service.addMemberToClub(newClub.id, newSocio.id,);
 
     expect(result.socios.length).toBe(1);
     expect(result.socios[0]).not.toBeNull();
@@ -92,69 +92,69 @@ describe('ClubSocioService', () => {
     expect(result.socios[0].fecha_nacimiento).toEqual(newSocio.fecha_nacimiento,);
   });
 
-  it('addSocioClub should thrown exception for an invalid socio', async () => {
+  it('addMemberToClub should thrown exception for an invalid socio', async () => {
     const newClub: ClubEntity = await clubRepository.save(
       getNewClub(),
     );
 
     await expect(() =>
-      service.addSocioClub(newClub.id, "0"),
+      service.addMemberToClub(newClub.id, "0"),
     ).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('addSocioClub should throw an exception for an invalid club', async () => {
+  it('addMemberToClub should throw an exception for an invalid club', async () => {
     const newSocio: ClubEntity = await socioRepository.save(getNewSocio());
 
     await expect(() =>
-      service.addSocioClub("0", newSocio.id),
+      service.addMemberToClub("0", newSocio.id),
     ).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('findSocioByclubIdsocioId should return socio by club', async () => {
+  it('findMemberFromClub should return socio by club', async () => {
     const socio: SocioEntity = sociosList[0];
-    const storedSocio: SocioEntity = await service.findSocioByclubIdsocioId(club.id,socio.id,);
+    const storedSocio: SocioEntity = await service.findMemberFromClub(club.id,socio.id,);
     expect(storedSocio).not.toBeNull();
     expect(storedSocio.nombre).toBe(socio.nombre);
     expect(storedSocio.correo).toBe(socio.correo,);
     expect(storedSocio.fecha_nacimiento).toEqual(socio.fecha_nacimiento,);
   });
 
-  it('findSocioByclubIdsocioId should throw an exception for an invalid socio', async () => {
+  it('findMemberFromClub should throw an exception for an invalid socio', async () => {
     const socio: SocioEntity = sociosList[0];
     await expect(() =>
-      service.findSocioByclubIdsocioId("0",socio.id,),
+      service.findMemberFromClub("0",socio.id,),
     ).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('findSocioByclubIdsocioId should throw an exception for an invalid club', async () => {
+  it('findMemberFromClub should throw an exception for an invalid club', async () => {
     await expect(() =>
-      service.findSocioByclubIdsocioId(club.id,"0",),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
+      service.findMemberFromClub(club.id,"0",),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('findSocioByclubIdsocioId should throw an exception for an socio not associated to the club', async () => {
+  it('findMemberFromClub should throw an exception for an socio not associated to the club', async () => {
     const newSocio: SocioEntity =
       await socioRepository.save(getNewSocio());
 
     await expect(() =>
-      service.findSocioByclubIdsocioId(club.id,newSocio.id,),).rejects.toHaveProperty('type', BusinessError.PRECONDITION_FAILED);
+      service.findMemberFromClub(club.id,newSocio.id,),).rejects.toHaveProperty('type', BusinessError.PRECONDITION_FAILED);
   });
 
-  it('findSociosByClubId should return socio by clubs', async () => {
-    const socios: SocioEntity[] =  await service.findSociosByClubId(club.id);
+  it('findMembersFromClub should return socio by clubs', async () => {
+    const socios: SocioEntity[] =  await service.findMembersFromClub(club.id);
     expect(socios.length).toBe(5);
   });
 
-  it('findSociosByClubId should throw an exception for an invalid club', async () => {
+  it('findMembersFromClub should throw an exception for an invalid club', async () => {
     await expect(() =>
-      service.findSociosByClubId("0"),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
+      service.findMembersFromClub("0"),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('associateSociosClub should update socios list for a club', async () => {
+  it('updateMembersFromClub should update socios list for a club', async () => {
     const newSocio: SocioEntity =
       await socioRepository.save(getNewSocio());
 
     const updatedClub: ClubEntity =
-      await service.associateSociosClub(club.id, 
+      await service.updateMembersFromClub(club.id, 
         [newSocio],
       );
     expect(updatedClub.socios.length).toBe(1);
@@ -164,26 +164,26 @@ describe('ClubSocioService', () => {
     expect(updatedClub.socios[0].fecha_nacimiento).toBe(newSocio.fecha_nacimiento,);
   });
 
-  it('associateSociosClub should throw an exception for an invalid club', async () => {
+  it('updateMembersFromClub should throw an exception for an invalid club', async () => {
     const newSocio: SocioEntity =
       await socioRepository.save(getNewSocio());
 
     await expect(() =>
-      service.associateSociosClub("0", [newSocio]),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
+      service.updateMembersFromClub("0", [newSocio]),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('associateSociosClub should throw an exception for an invalid socio', async () => {
+  it('updateMembersFromClub should throw an exception for an invalid socio', async () => {
     const newSocio: SocioEntity = sociosList[0];
     newSocio.id = "0";
 
     await expect(() =>
-      service.associateSociosClub(club.id, [newSocio,]),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
+      service.updateMembersFromClub(club.id, [newSocio,]),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('deleteSocioClub should remove an socio from a club', async () => {
+  it('deleteMemberFromClub should remove an socio from a club', async () => {
     const socio: SocioEntity = sociosList[0];
 
-    await service.deleteSocioClub(club.id,socio.id,);
+    await service.deleteMemberFromClub(club.id,socio.id,);
 
     const storedClub: ClubEntity = await clubRepository.findOne({ where: { id: club.id },relations: ['socios'],});
     const deletedSocio: SocioEntity = storedClub.socios.find((a) => a.id === club.id);
@@ -191,24 +191,24 @@ describe('ClubSocioService', () => {
     expect(deletedSocio).toBeUndefined();
   });
 
-  it('deleteSocioClub should thrown an exception for an invalid club', async () => {
+  it('deleteMemberFromClub should thrown an exception for an invalid club', async () => {
     const socio: SocioEntity = sociosList[0];
     await expect(() =>
-      service.deleteSocioClub("0", socio.id),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
+      service.deleteMemberFromClub("0", socio.id),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
-  it('deleteSocioClub should thrown an exception for an invalid socio', async () => {
+  it('deleteMemberFromClub should thrown an exception for an invalid socio', async () => {
     await expect(() =>
-      service.deleteSocioClub(club.id, "0"),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
+      service.deleteMemberFromClub(club.id, "0"),).rejects.toHaveProperty('type', BusinessError.NOT_FOUND);
   });
 
 
-  it('deleteSocioClub should thrown an exception for an non asocciated socio', async () => {
+  it('deleteMemberFromClub should thrown an exception for an non asocciated socio', async () => {
     const newSocio: SocioEntity =
       await socioRepository.save(getNewSocio());
 
     await expect(() =>
-      service.deleteSocioClub(club.id, newSocio.id,),
+      service.deleteMemberFromClub(club.id, newSocio.id,),
     ).rejects.toHaveProperty('type', BusinessError.PRECONDITION_FAILED);
   });
 });
