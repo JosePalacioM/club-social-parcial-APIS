@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Injectable,BadRequestException  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BusinessError, BusinessLogicException,} from '../shared/errors/business-errors';
@@ -12,7 +12,11 @@ export class ClubService {
     private readonly clubRepository: Repository<ClubEntity>,
   ) {}
 
-  async create(club: ClubEntity,): Promise<ClubEntity> {
+  async create(club: ClubEntity): Promise<ClubEntity> {
+    if (club.nombre.length > 100) {
+      throw new BadRequestException('El campo nombre no puede tener más de 100 caracteres');
+    }
+
     return await this.clubRepository.save(club);
   }
 

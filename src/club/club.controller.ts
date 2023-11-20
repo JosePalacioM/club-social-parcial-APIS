@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors, ParseIntPipe, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors, } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { ClubDto } from './club.dto';
@@ -24,7 +24,7 @@ export class ClubController {
 
 
   @Get(':clubId')
-  async findOne(@Param('clubId', ParseIntPipe) clubId: string) {
+  async findOne(@Param('clubId') clubId: string) {
     return await this.clubService.findOne(clubId);
   }
 
