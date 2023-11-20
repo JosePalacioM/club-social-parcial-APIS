@@ -6,7 +6,7 @@ import { SocioDto } from 'src/socio/socio.dto';
 import { plainToInstance } from 'class-transformer';
 import { SocioEntity } from 'src/socio/socio.entity';
 
-@Controller('culturas-gastronomicas')
+@Controller('club-social')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class ClubSocioController {
   constructor(
